@@ -39,6 +39,7 @@ export default function HelpMeWriteButton({
         onClose={() => setOpen(false)}
         seedPrompt={seedPrompt}
         onAccept={onAccept}
+        fieldLabel={fieldLabel}
       />
     </>
   );

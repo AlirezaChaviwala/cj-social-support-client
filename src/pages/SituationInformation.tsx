@@ -18,6 +18,7 @@ import { useStepNavigation } from "../hooks/useStepNavigation";
 import { useEffect, useRef } from "react";
 import { getErrorHelp } from "../utils/errorHelper";
 import { isInvalidNavigation } from "../utils/routerHelper";
+import "../App.css";
 
 type FormValues = {
   currentFinancialSituation: string;
@@ -98,7 +99,7 @@ export default function Situation() {
           t
         )}
       >
-        <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+        <div className="situation-information-form-item">
           <Controller
             name="currentFinancialSituation"
             control={control}
@@ -129,6 +130,7 @@ export default function Situation() {
               "I have limited income and high expenses."
             }`}
             onAccept={makeAccept("currentFinancialSituation")}
+            fieldLabel={t("form.currentFinancialSituation")}
           />
         </div>
       </Form.Item>
@@ -148,7 +150,7 @@ export default function Situation() {
           t
         )}
       >
-        <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+        <div className="situation-information-form-item">
           <Controller
             name="employmentCircumstances"
             control={control}
@@ -180,6 +182,7 @@ export default function Situation() {
               "I was recently laid off and I am actively looking for a job."
             }`}
             onAccept={makeAccept("employmentCircumstances")}
+            fieldLabel={t("form.employmentCircumstances")}
           />
         </div>
       </Form.Item>
@@ -199,7 +202,7 @@ export default function Situation() {
           t
         )}
       >
-        <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+        <div className="situation-information-form-item">
           <Controller
             name="reasonForApplying"
             control={control}
@@ -231,6 +234,7 @@ export default function Situation() {
               "I need support to cover rent and basic utilities while I look for work."
             }`}
             onAccept={makeAccept("reasonForApplying")}
+            fieldLabel={t("form.reasonForApplying")}
           />
         </div>
       </Form.Item>

@@ -11,9 +11,9 @@ export const LanguageLabels: Record<LanguageType, string> = {
 export type LanguageType =
   (typeof LanguageOptions)[keyof typeof LanguageOptions];
 
-type Gender = "male" | "female" | "other";
+export type Gender = "male" | "female" | "other";
 
-type MaritalStatus = "single" | "married" | "divorced" | "widowed";
+export type MaritalStatus = "single" | "married" | "divorced" | "widowed";
 
 export const MaritalStatusOptions = {
   SINGLE: "single",
@@ -22,7 +22,7 @@ export const MaritalStatusOptions = {
   WIDOWED: "widowed",
 } as const;
 
-type EmploymentStatus =
+export type EmploymentStatus =
   | "employed"
   | "unemployed"
   | "student"
@@ -37,7 +37,7 @@ export const EmploymentStatusOptions = {
   SELF: "self",
 } as const;
 
-type HousingStatus = "rent" | "own" | "family" | "subsidized";
+export type HousingStatus = "rent" | "own" | "family" | "subsidized";
 
 export const HousingStatusOptions = {
   RENT: "rent",

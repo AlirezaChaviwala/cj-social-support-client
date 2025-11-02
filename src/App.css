@@ -1,0 +1,44 @@
+.header {
+  padding: 12px 24px;
+  background: #fff;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column-reverse;
+    gap: 16px;
+  }
+
+  .header-title {
+    align-self: flex-start;
+    text-align: left;
+  }
+
+  .header > :last-child {
+    align-self: flex-end;
+    text-align: right;
+  }
+}
+
+.situation-information-form-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  .situation-information-form-item {
+    flex-direction: column;
+  }
+  .situation-information-form-item > :last-child {
+    align-self: flex-end;
+  }
+}

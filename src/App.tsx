@@ -6,6 +6,7 @@ import AppRouter from "./routes/AppRouter";
 import { Button, Space, Typography } from "antd";
 import { useEffect } from "react";
 import { LanguageOptions, type LanguageType } from "./domain/application";
+import "./App.css";
 
 export default function App() {
   const { t, i18n } = useTranslation();
@@ -23,16 +24,8 @@ export default function App() {
 
   return (
     <>
-      <div
-        style={{
-          padding: "12px 24px",
-          background: "#fff",
-          marginBottom: 16,
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <div>
+      <div className="header">
+        <div className="header-title">
           <Typography.Title level={4} style={{ margin: 0 }}>
             {t("appTitle")}
           </Typography.Title>

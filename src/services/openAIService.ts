@@ -6,12 +6,12 @@ export async function generateSuggestion(
   prompt: string,
   apiKey?: string
 ): Promise<string> {
-  try {
-    const key = apiKey || import.meta.env.VITE_OPENAI_API_KEY;
-    if (!key) {
-      throw new Error("OpenAI API key not provided");
-    }
+  const key = apiKey || import.meta.env.VITE_OPENAI_API_KEY;
+  if (!key) {
+    throw new Error("OpenAI API key not provided");
+  }
 
+  try {
     const response = await axios.post(
       OPENAI_URL,
       {
@@ -41,8 +41,8 @@ export async function generateSuggestion(
       throw new Error("Empty response from OpenAI");
     }
     return content;
-  } catch (e) {
-    console.error("OpenAI API error:", e);
-    throw e;
+  } catch (error) {
+    console.error("OpenAI API error:", error);
+    throw error;
   }
 }

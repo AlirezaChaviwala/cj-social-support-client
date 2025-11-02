@@ -16,7 +16,7 @@ import {
   type IState,
   type ICity,
 } from "../services/geoDataService";
-import { GenderOptions, Step } from "../domain/application";
+import { GenderOptions, Step, type Gender } from "../domain/application";
 import { useStepNavigation } from "../hooks/useStepNavigation";
 import { getErrorHelp } from "../utils/errorHelper";
 
@@ -24,7 +24,7 @@ type FormValues = {
   name: string;
   nationalId: string;
   dateOfBirth?: string;
-  gender?: "male" | "female" | "other";
+  gender?: Gender;
   address: string;
   city: string;
   state: string;

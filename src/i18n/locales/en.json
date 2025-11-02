@@ -74,5 +74,11 @@
   "wizard.step": "Step",
   "wizard.of": "of",
   "wizard.complete": "Complete",
-  "wizard.currentStep": "Step {{current}} of {{total}}"
+  "wizard.currentStep": "Step {{current}} of {{total}}",
+  "ai.fallback.financialSituation": "I am currently experiencing financial difficulties due to reduced income and increased expenses. My monthly income is insufficient to cover basic necessities such as rent, utilities, and food. I am seeking assistance to help stabilize my financial situation during this challenging period.",
+  "ai.fallback.employment": "I have recently lost my employment and am actively seeking new job opportunities. The loss of steady income has significantly impacted my ability to meet my financial obligations. I am committed to finding new employment as soon as possible while requesting temporary support during this transition period.",
+  "ai.fallback.reasonForApplying": "I am applying for financial support to help cover essential living expenses during a period of financial hardship. This assistance will enable me to maintain housing stability and meet basic needs while I work toward improving my financial situation. I am committed to using this support responsibly and am grateful for any assistance provided.",
+  "ai.fallback.generic": "I am experiencing financial difficulties and respectfully request assistance to help me through this challenging time. Any support provided would be greatly appreciated and used to cover essential living expenses.",
+  "ai.usingFallback": "AI service unavailable. Showing a template suggestion you can edit.",
+  "ai.fallbackNote": "Note: This is a template suggestion. Please edit it to reflect your specific situation."
 }

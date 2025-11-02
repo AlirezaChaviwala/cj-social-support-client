@@ -8,6 +8,7 @@ type Props = {
   onClose: () => void;
   seedPrompt: string;
   onAccept: (text: string) => void;
+  fieldLabel?: string;
 };
 
 export default function AIAssistModal({
@@ -15,27 +16,59 @@ export default function AIAssistModal({
   onClose,
   seedPrompt,
   onAccept,
+  fieldLabel,
 }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
-  const [hasError, setHasError] = useState(false);
+  const [usedFallback, setUsedFallback] = useState(false);
   const textareaRef = useRef<any>(null);
 
-  // Focus management: focus textarea when modal opens
+  const getFallbackText = (): string => {
+    const genericFallback = t("ai.fallback.generic", {
+      defaultValue:
+        "I am experiencing financial difficulties and respectfully request assistance to help me through this challenging time. Any support provided would be greatly appreciated and used to cover essential living expenses.",
+    });
+
+    if (!fieldLabel) {
+      return genericFallback;
+    }
+
+    switch (fieldLabel) {
+      case t("form.currentFinancialSituation"):
+        return t("ai.fallback.financialSituation", {
+          defaultValue:
+            "I am currently experiencing financial difficulties due to reduced income and increased expenses. My monthly income is insufficient to cover basic necessities such as rent, utilities, and food. I am seeking assistance to help stabilize my financial situation during this challenging period.",
+        });
+
+      case t("form.employmentCircumstances"):
+        return t("ai.fallback.employment", {
+          defaultValue:
+            "I have recently lost my employment and am actively seeking new job opportunities. The loss of steady income has significantly impacted my ability to meet my financial obligations. I am committed to finding new employment as soon as possible while requesting temporary support during this transition period.",
+        });
+
+      case t("form.reasonForApplying"):
+        return t("ai.fallback.reasonForApplying", {
+          defaultValue:
+            "I am applying for financial support to help cover essential living expenses during a period of financial hardship. This assistance will enable me to maintain housing stability and meet basic needs while I work toward improving my financial situation. I am committed to using this support responsibly and am grateful for any assistance provided.",
+        });
+
+      default:
+        return genericFallback;
+    }
+  };
+
   useEffect(() => {
     if (open && textareaRef.current && !loading) {
-      // Delay to ensure modal is fully rendered
       setTimeout(() => {
         textareaRef.current?.focus();
       }, 100);
     }
   }, [open, loading]);
 
-  // Keyboard handler: Close on Escape
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open) {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && open) {
         onClose();
       }
     };
@@ -50,47 +83,47 @@ export default function AIAssistModal({
     const run = async () => {
       if (!open) {
         setText("");
-        setHasError(false);
+        setUsedFallback(false);
         return;
       }
 
       setLoading(true);
-      setHasError(false);
+      setUsedFallback(false);
+
+      const fallbackText = getFallbackText();
 
       try {
         const suggestion = await generateSuggestion(seedPrompt);
-        if (!suggestion || suggestion.trim() === "") {
-          setHasError(true);
-          message.error(
-            t("errors.generic", {
-              defaultValue: "Something went wrong. Please try again.",
-            })
-          );
-          setText("");
-        } else {
-          setText(suggestion);
+
+        if (!suggestion || suggestion.trim().length < 10) {
+          setText(fallbackText);
+          setUsedFallback(true);
+          return;
         }
+
+        setText(suggestion);
+        setUsedFallback(false);
       } catch (error) {
-        setHasError(true);
-        message.error(
-          t("errors.generic", {
-            defaultValue: "Something went wrong. Please try again.",
+        setText(fallbackText);
+        setUsedFallback(true);
+        message.info(
+          t("ai.usingFallback", {
+            defaultValue:
+              "AI service unavailable. Showing a template suggestion you can edit.",
           })
         );
-        setText("");
       } finally {
         setLoading(false);
       }
     };
     run();
-  }, [open, seedPrompt, t]);
+  }, [open, seedPrompt, t, fieldLabel]);
 
   const handleOk = () => {
-    if (!text.trim() || hasError) {
+    if (!text.trim()) {
       message.warning(
         t("modal.waitForSuggestion", {
-          defaultValue:
-            "Please wait for a valid suggestion or close this dialog.",
+          defaultValue: "Please wait for a suggestion or close this dialog.",
         })
       );
       return;
@@ -109,7 +142,7 @@ export default function AIAssistModal({
       cancelText={t("discard", { defaultValue: "Discard" })}
       confirmLoading={loading}
       okButtonProps={{
-        disabled: !text.trim() || hasError || loading,
+        disabled: !text.trim() || loading,
         "aria-label": t("accept", { defaultValue: "Accept suggestion" }),
       }}
       cancelButtonProps={{
@@ -134,15 +167,20 @@ export default function AIAssistModal({
       );
     }
 
-    if (hasError) {
+    if (usedFallback) {
       return (
-        <Typography.Paragraph type="danger" role="alert" aria-live="assertive">
-          {t("errors.generic", {
-            defaultValue: "Failed to generate suggestion. Please try again.",
+        <Typography.Paragraph
+          type="secondary"
+          style={{ fontSize: 12, marginBottom: 8 }}
+        >
+          {t("ai.fallbackNote", {
+            defaultValue:
+              "Note: This is a template suggestion. Please edit it to reflect your specific situation.",
           })}
         </Typography.Paragraph>
       );
     }
+
     return null;
   }
 
@@ -171,9 +209,6 @@ export default function AIAssistModal({
         value={text}
         onChange={(e) => {
           setText(e.target.value);
-          if (hasError && e.target.value.trim()) {
-            setHasError(false);
-          }
         }}
         placeholder={
           loading
@@ -182,13 +217,9 @@ export default function AIAssistModal({
                 defaultValue: "Edit the suggestion or wait for it to load...",
               })
         }
-        // placeholder={t("editSuggestion", {
-        //   defaultValue: "Edit the suggestion or wait for it to load...",
-        // })}
         aria-label={t("suggestionTextarea", {
           defaultValue: "AI suggestion text area",
         })}
-        aria-invalid={hasError ? "true" : "false"}
         aria-describedby="ai-modal-description"
       />
     );

@@ -9,16 +9,20 @@ import {
   HousingStatusOptions,
   MaritalStatusOptions,
   Step,
+  type MaritalStatus,
+  type EmploymentStatus,
+  type HousingStatus,
 } from "../domain/application";
 import { useStepNavigation } from "../hooks/useStepNavigation";
 import { useEffect, useRef } from "react";
 import { isInvalidNavigation } from "../utils/routerHelper";
+
 type FormValues = {
-  maritalStatus: "single" | "married" | "divorced" | "widowed";
+  maritalStatus: MaritalStatus;
   dependents: number;
-  employmentStatus: "employed" | "unemployed" | "student" | "retired" | "self";
+  employmentStatus: EmploymentStatus;
   monthlyIncome: number;
-  housingStatus: "rent" | "own" | "family" | "subsidized";
+  housingStatus: HousingStatus;
 };
 
 export default function FamilyAndFinancialInformation() {
