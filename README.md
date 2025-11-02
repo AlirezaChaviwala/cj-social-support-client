@@ -14,7 +14,7 @@ A responsive, multi-language (English/Arabic) government-style social support po
 1. **Clone or navigate to the project directory**
 
    ```bash
-   cd cj-social-support-ai
+   cd cj-social-support-client
    ```
 
 2. **Install dependencies**
@@ -331,5 +331,3 @@ This is an assessment/project. For questions or improvements, please refer to th
 This project is for assessment purposes.
 
 ---
-
-**Built with ❤️ using React, TypeScript, and modern web technologies.**
